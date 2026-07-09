@@ -1,0 +1,5 @@
+{
+  "name":"@swissknife/snippet-manager","version":"1.0.0","type":"module",
+  "main":"../../dist/packages/snippet-manager/src/main.js",
+  "scripts":{"build":"node scripts/copy-assets.mjs","start":"electron ."}
+}
