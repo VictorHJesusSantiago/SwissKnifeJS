@@ -1,0 +1,21 @@
+services:
+  logs:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    environment:
+      PORT: "4080"
+      DATA_FILE: /data/logs.ndjson
+    ports: ["4080:4080"]
+    volumes: ["logs:/data"]
+  faq:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    command: ["node", "dist/packages/faq-bot/src/server.js"]
+    environment:
+      PORT: "4070"
+      FAQ_FILE: /app/examples/faqs.json
+    ports: ["4070:4070"]
+volumes:
+  logs:
