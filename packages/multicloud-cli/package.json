@@ -1,0 +1,1 @@
+{"name":"@swissknife/multicloud-cli","version":"1.0.0","type":"module","bin":{"swisscloud":"src/cli.ts"}}
