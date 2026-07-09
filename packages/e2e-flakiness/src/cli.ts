@@ -1,0 +1,10 @@
+import { readFile } from "node:fs/promises";
+import { parseArgs, stringArg, numberArg } from "../../core/src/args.js";
+import { parsePlaywrightReport, recordAndAnalyze } from "./report.js";
+const args = parseArgs(process.argv.slice(2));
+const reportFile = stringArg(args, "report", "playwright-report.json");
+const report = JSON.parse(await readFile(reportFile, "utf8"));
+const tests = parsePlaywrightReport(report);
+const flaky = await recordAndAnalyze(stringArg(args, "history", ".swissknife/flakiness.json"), tests, numberArg(args, "runs", 30));
+console.log(JSON.stringify({ analyzed: tests.length, flaky }, null, 2));
+if (tests.some((test) => test.outcome === "failed")) process.exitCode = 1;
