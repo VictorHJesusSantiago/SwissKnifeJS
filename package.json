@@ -1,0 +1,40 @@
+{
+  "name": "swissknife-js",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && npm run build -w swissknife-productivity && npm run build -w @swissknife/snippet-manager",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run tests",
+    "uptime": "tsx packages/uptime-ssl/src/cli.ts",
+    "faq-bot": "tsx packages/faq-bot/src/server.ts",
+    "network-test": "tsx packages/network-test/src/cli.ts",
+    "cloud": "tsx packages/multicloud-cli/src/cli.ts",
+    "k8s-portal": "tsx packages/k8s-portal/src/server.ts",
+    "openapi-mock": "tsx packages/openapi-mock/src/cli.ts",
+    "openapi-docgen": "tsx packages/openapi-docgen/src/cli.ts",
+    "contract-test": "tsx packages/contract-tester/src/cli.ts",
+    "e2e-flakiness": "tsx packages/e2e-flakiness/src/cli.ts",
+    "visual-regression": "tsx packages/visual-regression/src/cli.ts",
+    "sprint-retro": "tsx packages/sprint-retro/src/cli.ts",
+    "logs": "tsx packages/log-aggregator/src/server.ts"
+  },
+  "dependencies": {
+    "cron-parser": "^5.2.0",
+    "electron": "^43.0.0",
+    "pngjs": "^7.0.0",
+    "yaml": "^2.8.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.0",
+    "@types/node": "^24.0.0",
+    "@types/pngjs": "^6.0.5",
+    "@types/vscode": "^1.101.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  }
+}
