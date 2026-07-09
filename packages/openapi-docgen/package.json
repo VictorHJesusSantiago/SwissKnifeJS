@@ -1,0 +1,1 @@
+{"name":"@swissknife/openapi-docgen","version":"1.0.0","type":"module","bin":{"openapi-docgen":"src/cli.ts"}}
