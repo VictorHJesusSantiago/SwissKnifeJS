@@ -1,0 +1,6 @@
+{
+  "intervalSeconds": 60,
+  "targets": [
+    {"name":"Example","url":"https://example.com","expectedStatus":[200],"sslWarningDays":14}
+  ]
+}
