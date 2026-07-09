@@ -1,0 +1,1 @@
+{"name":"@swissknife/sprint-retro","version":"1.0.0","type":"module","bin":{"sprint-retro":"src/cli.ts"}}
