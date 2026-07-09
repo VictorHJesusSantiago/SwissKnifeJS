@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Example Pets API
+  version: 1.0.0
+servers:
+  - url: http://localhost:4010
+paths:
+  /pets:
+    get:
+      operationId: listPets
+      summary: Lista animais
+      responses:
+        "200":
+          description: Lista
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pet"
+    post:
+      operationId: createPet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Pet"
+      responses:
+        "201":
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+components:
+  schemas:
+    Pet:
+      type: object
+      required: [id, name]
+      properties:
+        id: {type: integer}
+        name: {type: string}
