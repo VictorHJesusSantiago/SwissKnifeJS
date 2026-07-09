@@ -1,0 +1,1 @@
+{"name":"@swissknife/e2e-flakiness","version":"1.0.0","type":"module","bin":{"e2e-flakiness":"src/cli.ts"}}
