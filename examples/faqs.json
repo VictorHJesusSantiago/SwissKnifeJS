@@ -1,0 +1,5 @@
+[
+  {"question":"Como redefinir minha senha?","keywords":["senha","acesso","login"],"category":"acesso","answer":"Use “Esqueci minha senha” na tela de login. O link expira em 15 minutos."},
+  {"question":"Como pedir acesso a um sistema?","keywords":["permissão","acesso","sistema"],"category":"acesso","answer":"Abra uma solicitação no portal de identidade informando sistema, perfil e gestor aprovador."},
+  {"question":"Qual o status de um incidente?","keywords":["incidente","indisponível","status"],"category":"incidente","answer":"Consulte a página de status. Se o incidente não estiver listado, envie serviço, horário e mensagem de erro."}
+]
