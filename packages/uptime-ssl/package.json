@@ -1,0 +1,1 @@
+{"name":"@swissknife/uptime-ssl","version":"1.0.0","type":"module","bin":{"uptime-ssl":"src/cli.ts"}}
