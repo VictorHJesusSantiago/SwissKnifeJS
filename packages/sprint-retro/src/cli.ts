@@ -1,0 +1,13 @@
+import { writeFile } from "node:fs/promises";
+import { parseArgs, stringArg } from "../../core/src/args.js";
+import { fromAzure, fromJira } from "./providers.js";
+import { retrospective } from "./report.js";
+const args = parseArgs(process.argv.slice(2));
+const provider = (args._ as string[])[0];
+let data;
+if (provider === "jira") data = await fromJira(stringArg(args, "url"), stringArg(args, "board"), stringArg(args, "token", process.env.JIRA_TOKEN));
+else if (provider === "azure") data = await fromAzure(stringArg(args, "org"), stringArg(args, "project"), stringArg(args, "team"), stringArg(args, "token", process.env.AZURE_DEVOPS_TOKEN));
+else throw new Error("Uso: sprint-retro jira --url URL --board ID | azure --org ORG --project PROJ --team TEAM");
+const output = stringArg(args, "out", "RETRO.md");
+await writeFile(output, retrospective(data), "utf8");
+console.log(`Retrospectiva gerada em ${output}`);
