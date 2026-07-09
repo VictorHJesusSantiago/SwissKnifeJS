@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+.env
+*.log
+.swissknife/
+packages/snippet-manager/data/
+packages/visual-regression/{actual,baseline,diff}/
