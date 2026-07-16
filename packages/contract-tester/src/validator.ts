@@ -1,7 +1,7 @@
 import { methods, resolveSchema, sampleFromSchema, type OpenApi, type Schema } from "../../openapi-docgen/src/spec.js";
+import type { ContractFailure, ContractReport } from "./types.js";
 
-export interface ContractFailure { operation: string; message: string }
-export interface ContractReport { passed: number; failed: number; failures: ContractFailure[] }
+export type { ContractFailure, ContractReport } from "./types.js";
 
 export function validateValue(value: unknown, raw: Schema | undefined, spec: OpenApi, path = "$"): string[] {
   const schema = resolveSchema(raw, spec);
