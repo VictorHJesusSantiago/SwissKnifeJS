@@ -1,0 +1,9 @@
+{
+  "name": "@swissknife/cli",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": { "swissknife": "src/cli.ts" },
+  "dependencies": {
+    "@swissknife/core": "1.0.0"
+  }
+}
