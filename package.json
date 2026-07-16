@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json && npm run build -w swissknife-productivity && npm run build -w @swissknife/snippet-manager",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -19,12 +21,15 @@
     "e2e-flakiness": "tsx packages/e2e-flakiness/src/cli.ts",
     "visual-regression": "tsx packages/visual-regression/src/cli.ts",
     "sprint-retro": "tsx packages/sprint-retro/src/cli.ts",
-    "logs": "tsx packages/log-aggregator/src/server.ts"
+    "logs": "tsx packages/log-aggregator/src/server.ts",
+    "swissknife": "tsx packages/cli/src/cli.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.5.0",
     "cron-parser": "^5.2.0",
     "electron": "^43.0.0",
     "pngjs": "^7.0.0",
+    "ws": "^8.21.0",
     "yaml": "^2.8.0",
     "zod": "^4.0.0"
   },
@@ -33,6 +38,7 @@
     "@types/node": "^24.0.0",
     "@types/pngjs": "^6.0.5",
     "@types/vscode": "^1.101.0",
+    "@types/ws": "^8.18.1",
     "tsx": "^4.20.0",
     "typescript": "^5.8.0",
     "vitest": "^3.2.0"
