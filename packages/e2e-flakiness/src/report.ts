@@ -1,5 +1,6 @@
 import { readJsonFile, writeJsonAtomic } from "../../core/src/io.js";
-export interface TestRun { title: string; outcome: "passed" | "failed" | "skipped"; durationMs: number }
+export type Outcome = "passed" | "failed" | "skipped";
+export interface TestRun { title: string; outcome: Outcome; durationMs: number; attempts?: Outcome[] }
 export interface TestHistory { runs: Array<{ at: string; tests: TestRun[] }> }
 export interface FlakyTest {
   title: string; runs: number; failures: number; passes: number; transitions: number; flakiness: number; averageMs: number;
@@ -29,11 +30,15 @@ export function parsePlaywrightReport(report: any): TestRun[] {
   const visit = (suite: any, parents: string[]): void => {
     const current = suite.title ? [...parents, suite.title] : parents;
     for (const spec of suite.specs ?? []) for (const test of spec.tests ?? []) {
-      const result = test.results?.at(-1);
+      const results = (test.results ?? []) as Array<{ status?: string; duration?: number }>;
+      const result = results.at(-1);
+      const toOutcome = (status: string | undefined): Outcome =>
+        status === "passed" ? "passed" : status === "skipped" ? "skipped" : "failed";
       tests.push({
         title: [...current, spec.title, test.projectName].filter(Boolean).join(" › "),
-        outcome: result?.status === "passed" ? "passed" : result?.status === "skipped" ? "skipped" : "failed",
-        durationMs: result?.duration ?? 0
+        outcome: toOutcome(result?.status),
+        durationMs: result?.duration ?? 0,
+        attempts: results.map((entry) => toOutcome(entry.status))
       });
     }
     for (const child of suite.suites ?? []) visit(child, current);
