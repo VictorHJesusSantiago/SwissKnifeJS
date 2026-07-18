@@ -1,8 +1,14 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width">
 <title>Snippet Manager</title><link rel="stylesheet" href="styles.css"></head>
-<body><aside><h1>Snippets</h1><input id="search" placeholder="Buscar..."><button id="new">+ Novo</button><div id="list"></div></aside>
-<main><input id="title" placeholder="Título"><div class="row"><input id="language" placeholder="Linguagem"><input id="tags" placeholder="tags, separadas, por vírgula"></div>
+<body><aside><h1>Snippets</h1><input id="search" placeholder="Buscar (título, código, tags)..."><button id="new">+ Novo</button>
+<div class="row"><button id="export-json">Export JSON</button><button id="export-yaml">Export YAML</button></div>
+<button id="import">Importar</button>
+<div class="sync-box"><small>Pasta de sincronização</small><div class="row"><button id="sync-choose">Escolher</button><button id="sync-now">Sincronizar</button></div><small id="sync-path">Nenhuma</small></div>
+<div id="list"></div></aside>
+<main><input id="title" placeholder="Título"><div class="row"><input id="language" placeholder="Linguagem"><input id="category" placeholder="Categoria"><input id="tags" placeholder="tags, separadas, por vírgula"></div>
 <textarea id="code" spellcheck="false" placeholder="Cole seu código aqui"></textarea>
-<footer><button id="delete" class="danger">Excluir</button><span></span><button id="copy">Copiar</button><button id="save">Salvar</button></footer></main>
+<footer><button id="delete" class="danger">Excluir</button><button id="history">Histórico</button><span></span><button id="copy">Copiar</button><button id="save">Salvar</button></footer></main>
+<div id="history-modal" class="modal hidden"><div class="modal-content"><header><h2>Histórico de versões</h2><button id="history-close">Fechar</button></header>
+<div class="history-body"><ul id="history-list"></ul><div id="history-diff"></div></div></div></div>
 <script src="renderer.js"></script></body></html>
