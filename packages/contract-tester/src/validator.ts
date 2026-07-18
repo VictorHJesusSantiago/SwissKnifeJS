@@ -25,6 +25,7 @@ export function validateValue(value: unknown, raw: Schema | undefined, spec: Ope
 
 export async function testContract(spec: OpenApi, baseUrl: string): Promise<ContractReport> {
   const failures: ContractFailure[] = [];
+  const passedOperations: string[] = [];
   let passed = 0;
   for (const [path, item] of Object.entries(spec.paths)) for (const method of methods) {
     const operation = item[method];
@@ -46,9 +47,10 @@ export async function testContract(spec: OpenApi, baseUrl: string): Promise<Cont
         if (errors.length) throw new Error(errors.join("; "));
       }
       passed += 1;
+      passedOperations.push(operationName);
     } catch (error) {
       failures.push({ operation: operationName, message: error instanceof Error ? error.message : String(error) });
     }
   }
-  return { passed, failed: failures.length, failures };
+  return { passed, failed: failures.length, failures, passedOperations };
 }

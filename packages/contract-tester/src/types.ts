@@ -30,4 +30,10 @@ export interface Contract {
 }
 
 export interface ContractFailure { operation: string; message: string }
-export interface ContractReport { passed: number; failed: number; failures: ContractFailure[] }
+export interface ContractReport {
+  passed: number;
+  failed: number;
+  failures: ContractFailure[];
+  /** Operações "MÉTODO /caminho" que passaram, usadas para calcular cobertura. */
+  passedOperations: string[];
+}
