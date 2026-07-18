@@ -88,9 +88,11 @@ function buildRequestUrl(baseUrl: string, request: ContractRequest): URL {
 /** Reproduz cada interação do contrato contra um provider real e valida status + formato do corpo. */
 export async function verifyContract(contract: Contract, baseUrl: string): Promise<ContractReport> {
   const failures: ContractFailure[] = [];
+  const passedOperations: string[] = [];
   let passed = 0;
   for (const interaction of contract.interactions) {
     const label = interaction.operationId ?? `${operationKey(interaction.request)} (${interaction.description})`;
+    const operation = operationKey(interaction.request);
     try {
       const url = buildRequestUrl(baseUrl, interaction.request);
       const hasBody = interaction.request.body !== undefined;
@@ -112,9 +114,10 @@ export async function verifyContract(contract: Contract, baseUrl: string): Promi
         if (errors.length) throw new Error(errors.join("; "));
       }
       passed += 1;
+      passedOperations.push(operation);
     } catch (error) {
       failures.push({ operation: label, message: error instanceof Error ? error.message : String(error) });
     }
   }
-  return { passed, failed: failures.length, failures };
+  return { passed, failed: failures.length, failures, passedOperations };
 }

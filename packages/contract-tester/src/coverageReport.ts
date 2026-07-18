@@ -26,9 +26,10 @@ export function operationsFromContract(contract: Contract): string[] {
   return contract.interactions.map((interaction) => operationKey(interaction.request));
 }
 
-/** Extrai as operações cobertas a partir de um relatório de execução de contrato (passadas e falhas). */
+/** Extrai as operações cobertas (testadas) a partir de um relatório de execução — inclui as que passaram e as que falharam, já que "cobertura" mede o que foi exercitado, não o que passou. */
 export function operationsFromContractReport(report: ContractReport): string[] {
-  return report.failures.map((failure) => failure.operation.split(" (")[0]!);
+  const failed = report.failures.map((failure) => failure.operation.split(" (")[0]!);
+  return [...report.passedOperations, ...failed];
 }
 
 /**
