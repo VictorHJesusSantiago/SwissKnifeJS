@@ -1,9 +1,10 @@
 import { randomUUID } from "node:crypto";
 import { readJsonFile, writeJsonAtomic } from "../../core/src/io.js";
-export interface Snippet { id: string; title: string; language: string; code: string; tags: string[]; updatedAt: string }
+export interface Snippet { id: string; title: string; language: string; code: string; tags: string[]; category?: string; updatedAt: string }
 export class SnippetStore {
   constructor(private readonly file: string) {}
   list(): Promise<Snippet[]> { return readJsonFile(this.file, []); }
+  async get(id: string): Promise<Snippet | undefined> { return (await this.list()).find((item) => item.id === id); }
   async save(input: Omit<Snippet, "id" | "updatedAt"> & { id?: string }): Promise<Snippet> {
     if (!input.title.trim() || !input.code.trim()) throw new Error("Título e código são obrigatórios");
     const all = await this.list();
@@ -14,4 +15,5 @@ export class SnippetStore {
     return snippet;
   }
   async remove(id: string): Promise<void> { await writeJsonAtomic(this.file, (await this.list()).filter((item) => item.id !== id)); }
+  async replaceAll(snippets: Snippet[]): Promise<void> { await writeJsonAtomic(this.file, snippets); }
 }
