@@ -36,6 +36,6 @@ describe("mock + contrato", () => {
     const address = server.address();
     if (!address || typeof address === "string") throw new Error("Endereço inválido");
     const report = await testContract(spec, `http://127.0.0.1:${address.port}`);
-    expect(report).toEqual({ passed: 1, failed: 0, failures: [] });
+    expect(report).toEqual({ passed: 1, failed: 0, failures: [], passedOperations: ["GET /users/{id}"] });
   });
 });
