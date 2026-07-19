@@ -70,13 +70,50 @@ export function inspectCertificate(url: URL): Promise<CheckResult["certificate"]
   });
 }
 
-export async function notify(webhook: string, results: CheckResult[]): Promise<void> {
-  const failed = results.filter((result) => !result.ok);
-  if (!failed.length) return;
-  const text = failed.map((r) => `❌ ${r.name}: ${r.error ?? `HTTP ${r.status}`} (${r.latencyMs}ms)`).join("\n");
-  const response = await fetch(webhook, {
-    method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ text })
+export interface AlertConfig {
+  url: string;
+  method?: string;
+  headers?: Record<string, string>;
+}
+
+export interface AlertEvent {
+  type: "down" | "ssl-expiring";
+  target: string;
+  url: string;
+  message: string;
+  daysRemaining?: number;
+  result: CheckResult;
+}
+
+export function buildAlertEvents(results: CheckResult[], sslWarningDays: number): AlertEvent[] {
+  const events: AlertEvent[] = [];
+  for (const result of results) {
+    if (!result.ok) {
+      events.push({
+        type: "down", target: result.name, url: result.url,
+        message: result.error ?? `HTTP ${result.status}`, result
+      });
+    }
+    if (result.certificate && result.certificate.daysRemaining <= sslWarningDays) {
+      events.push({
+        type: "ssl-expiring", target: result.name, url: result.url,
+        message: `Certificado expira em ${result.certificate.daysRemaining} dia(s)`,
+        daysRemaining: result.certificate.daysRemaining, result
+      });
+    }
+  }
+  return events;
+}
+
+export async function sendAlert(alert: AlertConfig, event: AlertEvent): Promise<void> {
+  const response = await fetch(alert.url, {
+    method: alert.method ?? "POST",
+    headers: { "content-type": "application/json", ...alert.headers },
+    body: JSON.stringify(event)
   });
-  if (!response.ok) throw new Error(`Webhook respondeu ${response.status}`);
+  if (!response.ok) throw new Error(`Webhook de alerta respondeu ${response.status}`);
+}
+
+export async function sendAlerts(alert: AlertConfig, events: AlertEvent[]): Promise<void> {
+  for (const event of events) await sendAlert(alert, event);
 }
