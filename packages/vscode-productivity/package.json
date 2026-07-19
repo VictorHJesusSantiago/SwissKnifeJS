@@ -5,17 +5,63 @@
   "publisher": "swissknife",
   "engines": {"vscode":"^1.101.0"},
   "main": "./dist/extension.js",
-  "activationEvents": ["onCommand:swissknife.startFocus","onCommand:swissknife.quickNote"],
+  "activationEvents": [
+    "onCommand:swissknife.startFocus",
+    "onCommand:swissknife.pauseFocus",
+    "onCommand:swissknife.stopFocus",
+    "onCommand:swissknife.quickNote",
+    "onCommand:swissknife.weeklyFocusReport",
+    "onCommand:swissknife.insertSnippet",
+    "onCommand:swissknife.insertSnippetTodo",
+    "onCommand:swissknife.insertSnippetConsoleLog",
+    "onCommand:swissknife.insertSnippetTryCatch",
+    "onCommand:swissknife.insertSnippetFunctionDoc",
+    "onCommand:swissknife.manageTasks",
+    "onStartupFinished"
+  ],
   "contributes": {
     "commands": [
       {"command":"swissknife.startFocus","title":"SwissKnife: Iniciar foco"},
+      {"command":"swissknife.pauseFocus","title":"SwissKnife: Pausar/retomar foco"},
       {"command":"swissknife.stopFocus","title":"SwissKnife: Encerrar foco"},
-      {"command":"swissknife.quickNote","title":"SwissKnife: Nota rápida"}
+      {"command":"swissknife.quickNote","title":"SwissKnife: Nota rápida"},
+      {"command":"swissknife.weeklyFocusReport","title":"SwissKnife: Relatório semanal de foco"},
+      {"command":"swissknife.insertSnippet","title":"SwissKnife: Inserir snippet…"},
+      {"command":"swissknife.insertSnippetTodo","title":"SwissKnife: Inserir snippet TODO"},
+      {"command":"swissknife.insertSnippetConsoleLog","title":"SwissKnife: Inserir snippet console.log"},
+      {"command":"swissknife.insertSnippetTryCatch","title":"SwissKnife: Inserir snippet try/catch"},
+      {"command":"swissknife.insertSnippetFunctionDoc","title":"SwissKnife: Inserir snippet de documentação de função"},
+      {"command":"swissknife.manageTasks","title":"SwissKnife: Gerenciar tarefas do dia"}
+    ],
+    "keybindings": [
+      {"command":"swissknife.startFocus","key":"ctrl+alt+f","mac":"cmd+alt+f"},
+      {"command":"swissknife.pauseFocus","key":"ctrl+alt+p","mac":"cmd+alt+p"},
+      {"command":"swissknife.stopFocus","key":"ctrl+alt+shift+f","mac":"cmd+alt+shift+f"},
+      {"command":"swissknife.quickNote","key":"ctrl+alt+n","mac":"cmd+alt+n"},
+      {"command":"swissknife.insertSnippet","key":"ctrl+alt+s","mac":"cmd+alt+s","when":"editorTextFocus"},
+      {"command":"swissknife.insertSnippetTodo","key":"ctrl+alt+t","mac":"cmd+alt+t","when":"editorTextFocus"},
+      {"command":"swissknife.insertSnippetConsoleLog","key":"ctrl+alt+l","mac":"cmd+alt+l","when":"editorTextFocus"},
+      {"command":"swissknife.insertSnippetTryCatch","key":"ctrl+alt+c","mac":"cmd+alt+c","when":"editorTextFocus"},
+      {"command":"swissknife.insertSnippetFunctionDoc","key":"ctrl+alt+d","mac":"cmd+alt+d","when":"editorTextFocus"},
+      {"command":"swissknife.manageTasks","key":"ctrl+alt+shift+t","mac":"cmd+alt+shift+t"}
     ],
     "configuration": {
       "title": "SwissKnife",
       "properties": {
-        "swissknife.focusMinutes":{"type":"number","default":25,"minimum":1,"description":"Duração da sessão de foco"}
+        "swissknife.focusMinutes":{"type":"number","default":25,"minimum":1,"description":"Duração da sessão de foco (minutos)"},
+        "swissknife.shortBreakMinutes":{"type":"number","default":5,"minimum":1,"description":"Duração da pausa curta (minutos)"},
+        "swissknife.longBreakMinutes":{"type":"number","default":15,"minimum":1,"description":"Duração da pausa longa (minutos)"},
+        "swissknife.sessionsBeforeLongBreak":{"type":"number","default":4,"minimum":1,"description":"Quantidade de sessões de foco antes de uma pausa longa"},
+        "swissknife.snippets":{
+          "type":"object",
+          "description":"Snippets rápidos disponíveis para inserção (chave -> corpo do snippet no formato do VSCode)",
+          "default": {
+            "todo": "// TODO: $1",
+            "consoleLog": "console.log($1);",
+            "tryCatch": "try {\n\t$1\n} catch (error) {\n\t$2\n}",
+            "functionDoc": "/**\n * $1\n */\n"
+          }
+        }
       }
     }
   },
